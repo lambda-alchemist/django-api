@@ -43,7 +43,8 @@ INSTALLED_APPS = [
 	'rest_framework_swagger',
 	'drf_yasg',
 
-	'authentication'
+	'authentication',
+	'product'
 ]
 
 AUTH_USER_MODEL = 'authentication.User'

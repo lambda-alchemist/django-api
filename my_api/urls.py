@@ -5,9 +5,6 @@ from authentication.views import UserViewSet
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-router = routers.DefaultRouter()
-router.register(r'api/v1/users', UserViewSet)
-
 schema_view = get_schema_view(
 	openapi.Info(
 	title="Snippets API",
@@ -20,6 +17,9 @@ schema_view = get_schema_view(
 	public=True,
 	permission_classes=[permissions.AllowAny],
 )
+
+router = routers.DefaultRouter()
+router.register(r'api/v1/users', UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
