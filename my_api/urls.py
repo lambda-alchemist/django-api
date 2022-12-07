@@ -5,7 +5,8 @@ from rest_framework import routers, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from authentication.views import UserViewSet
-from product.views import ProductViewSet, CategoryViewSet, AddressViewSet
+from product.views import ProductViewSet, CategoryViewSet
+from address.views import AddressViewSet
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
