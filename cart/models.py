@@ -12,7 +12,7 @@ class CartItem(models.Model):
 		return f'#={str(self.product)}'
 
 class Cart(models.Model):
-	cart = models.ManyToManyField(CartItem)
+	items = models.ManyToManyField(CartItem)
 	val = models.DecimalField(max_digits = 5, decimal_places = 2, default = 0)
 	def __str__(self):
 		return f'#ID {self.id}'
