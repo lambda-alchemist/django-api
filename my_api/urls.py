@@ -3,8 +3,10 @@ from django.urls import path, re_path, include
 from django.contrib import admin, admindocs
 from rest_framework import routers, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
 from authentication.views import UserViewSet
-from product.views import ProductViewSet, CategoryViewSet
+from product.views import ProductViewSet, CategoryViewSet, AddressViewSet
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -25,6 +27,7 @@ router = routers.DefaultRouter()
 router.register(r'api/v1/users', UserViewSet)
 router.register(r'api/v1/products', ProductViewSet)
 router.register(r'api/v1/category', CategoryViewSet)
+router.register(r'api/v1/address', AddressViewSet)
 
 
 urlpatterns = [
