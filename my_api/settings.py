@@ -24,6 +24,8 @@ SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 DEBUG = int(os.environ.get('DEBUG', default = 1))
 ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS', default = 'localhost')).split(' ')
 
+SESSION_COOKIE_AGE = 86400
+CART_SESSION = 'cart'
 
 # Application definition
 
@@ -42,7 +44,8 @@ INSTALLED_APPS = [
 
 	'authentication',
 	'product',
-	'address'
+	'address',
+	'cart'
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
