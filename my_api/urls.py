@@ -1,7 +1,10 @@
+import django
 from django.urls import path, re_path, include
+from django.contrib import admin, admindocs
 from rest_framework import routers, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from authentication.views import UserViewSet
+from product.views import ProductViewSet, CategoryViewSet
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -20,9 +23,13 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 router.register(r'api/v1/users', UserViewSet)
+router.register(r'api/v1/products', ProductViewSet)
+router.register(r'api/v1/category', CategoryViewSet)
+
 
 urlpatterns = [
 	path('', include(router.urls)),
+	path('admin/', admin.site.urls),
 	path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 	path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
