@@ -10,6 +10,10 @@ class CartItem(models.Model):
 	client = models.ForeignKey(User, on_delete = models.CASCADE)
 	quant = models.PositiveSmallIntegerField(default = 1)
 
+	@property
+	def value(self):
+		return float(self.product.price * self.quant)
+
 	def __str__(self):
 		return str(self.product)
 
