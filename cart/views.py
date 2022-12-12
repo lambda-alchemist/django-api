@@ -27,6 +27,5 @@ class CartViewSet(viewsets.ModelViewSet):
 			instance.val = final_value
 			instance.save()
 			return Response(CartSeriazlizer(cart, many = False ).data, status = status.HTTP_200_OK)
-
 		except:
 			return Response(data={'err, try again'}, status = status.HTTP_400_BAD_REQUEST)
