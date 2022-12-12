@@ -22,13 +22,7 @@ class CartViewSet(viewsets.ModelViewSet):
 			cart = super().create(request, *args, **kwargs)
 			items = CartItem.objects.filter(id__in = cart.data.get('items'))
 			for item in items:
-				print("Start")
-				print(final_value)
-				print(item.value)
 				final_value += item.value
-				print("End")
-				print(final_value)
-				print(item.value)
 			instance = Cart.objects.get(id = cart.data.get('id'))
 			instance.val = final_value
 			instance.save()
