@@ -18,15 +18,16 @@ class CartViewSet(viewsets.ModelViewSet):
 	serializer_class = CartSeriazlizer
 
 	def create(self, request, *args, **kwargs):
+		import pdb; pdb.set_trace()
 		try:
 			final_val = 0
-			items = CartItem.objects.filter(id__in = request.data.get('CartItem'))
+			items = CartItem.objects.filter(id__in = [request.data.get('items')])
 			for loop in items:
-				final_val += loop.product.value * loop.quant
+				final_val += loop.product.price
 			cart = super().create(request, *args, **kwargs)
 			instance = Cart.objects.get(id = cart.data.get('id'))
 			instance.val = final_val
 			instance.save()
 			return Response(CartSeriazlizer(cart, many = False ).data, status = status.HTTP_200_OK)
-		finally:
+		except:
 			return Response(data={'err, try again'}, status = status.HTTP_400_BAD_REQUEST)
