@@ -7,11 +7,9 @@ from address.models import Address
 class CartItem(models.Model):
 	product = models.ForeignKey(Product, on_delete = models.CASCADE)
 	quant = models.PositiveSmallIntegerField(default = 1)
-
 	@property
 	def value(self):
 		return float(self.product.price * self.quant)
-
 	def __str__(self):
 		return str(self.product)
 

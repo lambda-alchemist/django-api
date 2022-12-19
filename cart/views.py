@@ -32,10 +32,9 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 
 	def create(self, request, *args, **kwargs):
 		try:
-			receit = super().create(request, *args, **kwargs)
-			user = User.objects.filter()
-			cart = Cart.objects.filter()
-			pay = float(cart.items)
-			return Response(PurchaseSeriazlizer(receit, many = False ).data, status = status.HTTP_200_OK)
+			purchase = super().create(request, *args, **kwargs)
+			instance = Purchase.objects.get(id = purchase.data.get('id'))
+			instance.save()
+			return Response(PurchaseSeriazlizer(purchase, many = False ).data, status = status.HTTP_200_OK)
 		except:
 			return Response(data={'err, try again'}, status = status.HTTP_400_BAD_REQUEST)
