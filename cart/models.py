@@ -11,7 +11,7 @@ class CartItem(models.Model):
 	def value(self):
 		return float(self.product.price * self.quant)
 	def __str__(self):
-		return str(self.product)
+		return f'#ID {self.id}'
 
 class Cart(models.Model):
 	client = models.ForeignKey(User, on_delete = models.CASCADE)

@@ -22,7 +22,7 @@ class CartViewSet(viewsets.ModelViewSet):
 			instance = Cart.objects.get(id = cart.data.get('id'))
 			instance.price = final_value
 			instance.save()
-			return Response(CartSeriazlizer(cart, many = False ).data, status = status.HTTP_200_OK)
+			return Response(CartSeriazlizer(instance, many = False ).data, status = status.HTTP_200_OK)
 		except:
 			return Response(data={'err, try again'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -31,10 +31,14 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 	serializer_class = PurchaseSeriazlizer
 
 	def create(self, request, *args, **kwargs):
-		try:
+		# try:
+			import pdb; pdb.set_trace()
 			purchase = super().create(request, *args, **kwargs)
 			instance = Purchase.objects.get(id = purchase.data.get('id'))
-			instance.save()
-			return Response(PurchaseSeriazlizer(purchase, many = False ).data, status = status.HTTP_200_OK)
-		except:
+			cart = Cart.objects.get(id=instance.content.id)
+			# cart = None
+			for item in cart.items():
+				del item
+			return Response(PurchaseSeriazlizer(instance, many = False ).data, status = status.HTTP_200_OK)
+		# except:
 			return Response(data={'err, try again'}, status = status.HTTP_400_BAD_REQUEST)

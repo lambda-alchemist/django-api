@@ -39,7 +39,7 @@
 	"python.analysis.inlayHints.functionReturnTypes": false,
 	"python.analysis.inlayHints.variableTypes": false,
 	"python.analysis.logLevel": "Warning",
-	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.typeCheckingMode": "off",
 	"python.envFile": "${workspaceFolder}/.env",
 	"python.experiments.enabled": false,
 	"python.experiments.optInto": ["All"],
