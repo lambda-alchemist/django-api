@@ -30,7 +30,7 @@ router.register(r'api/v1/users', UserViewSet)
 router.register(r'api/v1/products', ProductViewSet)
 router.register(r'api/v1/category', CategoryViewSet)
 router.register(r'api/v1/address', AddressViewSet)
-router.register(r'api/v1/purcahse', PurchaseViewSet)
+router.register(r'api/v1/purchase', PurchaseViewSet)
 router.register(r'api/v1/item', CartItemViewSet)
 router.register(r'api/v1/cart', CartViewSet)
 
