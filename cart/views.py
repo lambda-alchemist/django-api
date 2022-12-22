@@ -32,13 +32,13 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 
 	def create(self, request, *args, **kwargs):
 		try:
-			# import pdb; pdb.set_trace()
+			import pdb; pdb.set_trace()
 			purchase = super().create(request, *args, **kwargs)
 			cart = Cart.objects.get(id=purchase.data.get('content'))
 			instance = Purchase.objects.get(id=purchase.data.get('id'))
 			instance.price = cart.price
 			instance.save()
-			# cart.delete()
+			CartItem.objects.filter(cart = cart).delete()
 			return Response(PurchaseSeriazlizer(instance, many=False).data, status=status.HTTP_200_OK)
 		except:
 			return Response(data={'err, try again'}, status=status.HTTP_400_BAD_REQUEST)
