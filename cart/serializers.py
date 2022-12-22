@@ -10,6 +10,7 @@ class PurchaseSeriazlizer(serializers.ModelSerializer):
 		fields = "__all__"
 	def to_representation(self, instance):
 		self.fields['delivery'] = AddressSerializer(many=False, required=True)
+		self.fields['client'] = UserSerializer(many=False, required=True)
 		return super().to_representation(instance)
 
 class CartSeriazlizer(serializers.ModelSerializer):

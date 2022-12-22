@@ -22,8 +22,8 @@ class CartItem(models.Model):
 		return f'#ID {self.pk}'
 
 class Purchase(models.Model):
-	delivery = models.ForeignKey(Address, on_delete = models.DO_NOTHING)
 	content = models.ForeignKey(Cart, on_delete = models.DO_NOTHING)
+	delivery = models.ForeignKey(Address, on_delete = models.DO_NOTHING)
 	client = models.ForeignKey(User, on_delete = models.DO_NOTHING)
 	price = models.FloatField(default = 0)
 	def __str__(self):
