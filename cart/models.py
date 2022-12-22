@@ -9,15 +9,15 @@ class Cart(models.Model):
 	client = models.ForeignKey(User, on_delete = models.CASCADE)
 	price = models.FloatField(default=0.0)
 	def __str__(self):
-		return f'#ID {self.pk}'
+		return f'#ID {self.pk} #Client {self.client}'
 
 class CartItem(models.Model):
 	product = models.ForeignKey(Product, on_delete = models.CASCADE)
 	quant = models.PositiveSmallIntegerField(default = 1)
-	cart = models.ForeignKey(Cart, on_delete=models.DO_NOTHING, related_name='cartitem_set')
 	@property
 	def value(self):
 		return float(self.product.price * self.quant)
+	cart = models.ForeignKey(Cart, on_delete=models.DO_NOTHING, related_name='cartitem_set')
 	def __str__(self):
 		return f'#ID {self.pk}'
 
