@@ -12,7 +12,19 @@ class CartItemViewSet(viewsets.ModelViewSet):
 	permission_classes = [IsAuthenticated]
 
 	def get_queryset(self):
-		return CartItem.objects.filter(cart_id = self.request.user.pk)
+		return CartItem.objects.filter(cart__client_id = self.request.user.pk)
+
+	def create(self, request, *args, **kwargs):
+		import pdb; pdb.set_trace()
+		item = super().create(request, *args, **kwargs)
+		cart = Cart.objects.get(id=item.data['cart']['id'])
+		instance = CartItem.objects.get(id=item.data.get('id'))
+		cart.price += instance.value
+		cart.save()
+		instance.save()
+		return Response(
+			status=status.HTTP_200_OK,
+			data=CartItemSerializer(instance, many=False).data)
 
 class CartViewSet(viewsets.ModelViewSet):
 	queryset = Cart.objects.all()
@@ -24,13 +36,8 @@ class CartViewSet(viewsets.ModelViewSet):
 
 	def create(self, request, *args, **kwargs):
 		try:
-			final_value = 0
 			cart = super().create(request, *args, **kwargs)
-			items = CartItem.objects.filter(id__in=cart.data.get('items'))
-			for item in items:
-				final_value += item.value
 			instance = Cart.objects.get(id=cart.data.get('id'))
-			instance.price = final_value
 			instance.save()
 			return Response(
 				status=status.HTTP_201_CREATED,
