@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 DEBUG = int(os.environ.get('DEBUG', default = 1))
-ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS', default = 'localhost')).split(' ')
+#ALLOWED_HOSTS = str(os.environ.get('ALLOWED_HOSTS', default = 'localhost')).split(' ')
+ALLOWED_HOSTS = ['*']
 
 SESSION_COOKIE_AGE = 86400
 CART_SESSION = 'cart'

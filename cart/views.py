@@ -1,17 +1,27 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from authentication.models import User
 from .models import Purchase, Cart, CartItem
-from .serializers import CartItemSeriazlizer, CartSeriazlizer, PurchaseSeriazlizer
+from .serializers import CartItemSerializer, CartSerializer, PurchaseSerializer
 
 class CartItemViewSet(viewsets.ModelViewSet):
 	queryset = CartItem.objects.all()
-	serializer_class = CartItemSeriazlizer
+	serializer_class = CartItemSerializer
+	permission_classes = [IsAuthenticated]
+
+	def get_queryset(self):
+		return CartItem.objects.filter(cart_id = self.request.user.pk)
 
 class CartViewSet(viewsets.ModelViewSet):
 	queryset = Cart.objects.all()
-	serializer_class = CartSeriazlizer
+	serializer_class = CartSerializer
+	permission_classes = [IsAuthenticated]
+
+	def get_queryset(self):
+		return Cart.objects.filter(client_id = self.request.user.pk)
+
 	def create(self, request, *args, **kwargs):
 		try:
 			final_value = 0
@@ -23,16 +33,21 @@ class CartViewSet(viewsets.ModelViewSet):
 			instance.price = final_value
 			instance.save()
 			return Response(
-				status=200,
-				data = CartSeriazlizer(instance, many=False))
+				status=status.HTTP_201_CREATED,
+				data=CartSerializer(instance, many=False))
 		except:
 			return Response(
-				status=400,
+				status=status.HTTP_400_BAD_REQUEST,
 				data={'err, try again'})
 
 class PurchaseViewSet(viewsets.ModelViewSet):
 	queryset = Purchase.objects.all()
-	serializer_class = PurchaseSeriazlizer
+	serializer_class = PurchaseSerializer
+	permission_classes = [IsAuthenticated]
+
+	def get_queryset(self):
+		return Purchase.objects.filter(client_id = self.request.user.pk)
+
 	def create(self, request, *args, **kwargs):
 		try:
 			purchase = super().create(request, *args, **kwargs)
@@ -40,11 +55,11 @@ class PurchaseViewSet(viewsets.ModelViewSet):
 			instance = Purchase.objects.get(id=purchase.data.get('id'))
 			instance.price = cart.price
 			instance.save()
-			CartItem.objects.filter(cart = cart).delete()
+			CartItem.objects.filter(cart_id = cart.pk).delete()
 			return Response(
-				status=200,
-				data=PurchaseSeriazlizer(instance, many=False))
+				status=status.HTTP_201_CREATED,
+				data=PurchaseSerializer(instance, many=False))
 		except:
 			return Response(
-				status=400,
+				status=status.HTTP_400_BAD_REQUEST,
 				data={'err, try again'})
